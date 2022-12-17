@@ -41,6 +41,14 @@ const Users = () => {
     return classes;
   };
 
+  if (number == 0) {
+    return (
+      <div className={getBageClasses(number)}>
+        <h5>{`${phrase}`}</h5>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className={getBageClasses(number)}>
@@ -49,12 +57,13 @@ const Users = () => {
 
       <table className="table">
         <thead>
-          <tr>
+          <tr className="line">
             <th scope="col">Имя</th>
             <th scope="col">Качество</th>
             <th scope="col">Професия</th>
             <th scope="col">Встретился, раз</th>
             <th scope="col">Оценка</th>
+            <th scope="col"></th>
           </tr>
         </thead>
 

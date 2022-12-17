@@ -21,3 +21,6 @@ li {
   display: inline-block;
   margin-right: 5px;
 }
+.line {
+  border: 2px;
+}
