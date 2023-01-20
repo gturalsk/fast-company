@@ -1,6 +1,7 @@
 import React, { useState, useTransition } from "react";
 import API from "../API";
-import "../index.css";
+import "../../index.css";
+import User from "./user";
 
 const Users = () => {
   const [users, setUsers] = useState(API.users.fetchAll());
@@ -69,34 +70,7 @@ const Users = () => {
 
         <tbody>
           {users.map((user) => (
-            <tr key={user._id}>
-              <td>{user.name}</td>
-              <td>
-                {user.qualities.map((qualiti) => {
-                  return (
-                    <div
-                      className={`badge bg-${qualiti.color}`}
-                      id="qualiti"
-                      key={qualiti._id}
-                    >
-                      {qualiti.name}
-                    </div>
-                  );
-                })}
-              </td>
-
-              <td>{user.profession.name}</td>
-              <td>{user.completedMeetings}</td>
-              <td>{user.rate}</td>
-              <td>
-                <button
-                  onClick={() => handleDelete(user._id)}
-                  className="btn btn-danger"
-                >
-                  delete
-                </button>
-              </td>
-            </tr>
+            <User user={user} handleDelete={handleDelete} key={user._id} />
           ))}
         </tbody>
       </table>
