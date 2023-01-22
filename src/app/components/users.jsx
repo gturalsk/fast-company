@@ -1,13 +1,18 @@
-import React, { useState, useTransition } from "react";
+import React, { useState } from "react";
 import API from "../API";
 import "../../index.css";
 import User from "./user";
+import SearchStatus from "./searchStatus";
 
 const Users = () => {
   const [users, setUsers] = useState(API.users.fetchAll());
-  const [phrases, setPhrases] = useState("человек тусанёт с тобой сегодня");
 
-  //console.log(phrase);
+  const handleDelete = (userId) => {
+    setUsers(users.filter((p) => p._id !== userId));
+    renderPhrase(number - 1);
+  };
+
+  const [phrases, setPhrases] = useState("человек тусанёт с тобой сегодня");
 
   const ph = [
     "человек тусанёт с тобой сегодня",
@@ -18,43 +23,35 @@ const Users = () => {
   let number = users.length;
   let phrase = phrases;
 
-  const handleDelete = (userId) => {
-    setUsers(users.filter((p) => p._id !== userId));
-    renderPhrase(number - 1);
-  };
-
   const renderPhrase = (number) => {
     //console.log(number);
-    if (number == 1 || number > 4) {
+    if (number === 1 || number > 4) {
       phrase = setPhrases(ph[0]);
     }
     if (number < 5 && number > 1) {
       phrase = setPhrases(ph[1]);
     }
-    if (number == 0) {
+    if (number === 0) {
       phrase = setPhrases(ph[2]);
     }
   };
 
   const getBageClasses = (number) => {
-    //console.log(number);
     let classes = number > 0 ? "badge text-bg-primary" : "badge text-bg-danger";
     return classes;
   };
 
-  if (number == 0) {
+  if (number === 0) {
     return (
-      <div className={getBageClasses(number)}>
-        <h5>{`${phrase}`}</h5>
-      </div>
+      <SearchStatus number={number} phrase={phrase} calasses={getBageClasses} />
     );
   }
 
+  ////////////////////////////////////////////////////////
+
   return (
     <>
-      <div className={getBageClasses(number)}>
-        <h5>{`${number} ${phrase}`}</h5>
-      </div>
+      <SearchStatus number={number} phrase={phrase} calasses={getBageClasses} />
 
       <table className="table">
         <thead>
