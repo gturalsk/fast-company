@@ -11,6 +11,19 @@ const Users = () => {
     setUsers(users.filter((p) => p._id !== userId));
     renderPhrase(number - 1);
   };
+  /////////////////////////////////////////////////////////////////////
+
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const handlBookMark = (userId) => {
+    console.log(userId);
+    setIsBookmarked(!isBookmarked);
+  };
+  //console.log(isBookmarked);
+  // const handBookMark = () => {
+  //   console.log("нажал инзбранное");
+  // };
+  /////////////////////////////////////////////////////////////////////////////////
 
   const [phrases, setPhrases] = useState("человек тусанёт с тобой сегодня");
 
@@ -61,13 +74,19 @@ const Users = () => {
             <th scope="col">Професия</th>
             <th scope="col">Встретился, раз</th>
             <th scope="col">Оценка</th>
-            <th scope="col"></th>
+            <th scope="col">Избранное</th>
           </tr>
         </thead>
 
         <tbody>
           {users.map((user) => (
-            <User user={user} handleDelete={handleDelete} key={user._id} />
+            <User
+              user={user}
+              handleDelete={handleDelete}
+              key={user._id}
+              bookMark={handlBookMark}
+              isBookmarked={isBookmarked}
+            />
           ))}
         </tbody>
       </table>

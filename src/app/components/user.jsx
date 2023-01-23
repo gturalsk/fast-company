@@ -15,6 +15,16 @@ const User = (props) => {
       <td>{props.user.completedMeetings}</td>
       <td>{props.user.rate}</td>
       <td>
+        <button onClick={() => props.bookMark(props.user._id)}>
+          {props.isBookmarked ? (
+            <i className="bi bi-bookmark-check"></i>
+          ) : (
+            <i className="bi bi-bookmark"></i>
+          )}
+        </button>
+      </td>
+
+      <td>
         <button
           onClick={() => props.handleDelete(props.user._id)}
           className="btn btn-danger"
