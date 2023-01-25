@@ -7,22 +7,25 @@ import SearchStatus from "./searchStatus";
 const Users = () => {
   const [users, setUsers] = useState(API.users.fetchAll());
 
-  const handleDelete = (userId) => {
+  let handleDelete = (userId) => {
     setUsers(users.filter((p) => p._id !== userId));
     renderPhrase(number - 1);
   };
   /////////////////////////////////////////////////////////////////////
 
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const handlBookMark = (id) => {
+    
 
-  const handlBookMark = (userId) => {
-    console.log(userId);
-    setIsBookmarked(!isBookmarked);
+    let foo = users.map((p) => {
+      if (p._id === id) {
+        p.bookmark = !p.bookmark;
+        return p;
+      }
+      return p;
+    });
+    return setUsers(foo);
   };
-  //console.log(isBookmarked);
-  // const handBookMark = () => {
-  //   console.log("нажал инзбранное");
-  // };
+  
   /////////////////////////////////////////////////////////////////////////////////
 
   const [phrases, setPhrases] = useState("человек тусанёт с тобой сегодня");
@@ -66,15 +69,15 @@ const Users = () => {
     <>
       <SearchStatus number={number} phrase={phrase} calasses={getBageClasses} />
 
-      <table className="table">
+      <table className='table'>
         <thead>
-          <tr className="line">
-            <th scope="col">Имя</th>
-            <th scope="col">Качество</th>
-            <th scope="col">Професия</th>
-            <th scope="col">Встретился, раз</th>
-            <th scope="col">Оценка</th>
-            <th scope="col">Избранное</th>
+          <tr className='line'>
+            <th scope='col'>Имя</th>
+            <th scope='col'>Качество</th>
+            <th scope='col'>Професия</th>
+            <th scope='col'>Встретился, раз</th>
+            <th scope='col'>Оценка</th>
+            <th scope='col'>Избранное</th>
           </tr>
         </thead>
 
@@ -84,8 +87,7 @@ const Users = () => {
               user={user}
               handleDelete={handleDelete}
               key={user._id}
-              bookMark={handlBookMark}
-              isBookmarked={isBookmarked}
+              onBookMark={handlBookMark}
             />
           ))}
         </tbody>
