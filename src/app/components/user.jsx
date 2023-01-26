@@ -1,8 +1,9 @@
 import React from "react";
+import Bookmark from "./bookMark";
 import Qualiti from "./qualiti";
 
 const User = (props) => {
-  //console.log(props);
+  
   return (
     <tr key={props.user._id}>
       <td>{props.user.name}</td>
@@ -16,17 +17,11 @@ const User = (props) => {
       <td>{props.user.completedMeetings}</td>
       <td>{props.user.rate}</td>
       <td>
-        <button
-          onClick={() => props.onBookMark(props.user._id)}
-          className={
-            props.user.bookmark ? "bi bi-bookmark" : "bi bi-bookmark-check"
-          }>
-          {/* {props.bookMark ? (
-            <i className="bi bi-bookmark-check"></i>
-            ) : (
-            <i className="bi bi-bookmark"></i>
-          )} */}
-        </button>
+        <Bookmark
+          bookmark={props.onBookMark}
+          user={props.user._id}
+          flag={props.user.bookmark}
+        />
       </td>
 
       <td>

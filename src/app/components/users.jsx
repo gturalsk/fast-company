@@ -11,7 +11,7 @@ const Users = () => {
     setUsers(users.filter((p) => p._id !== userId));
     renderPhrase(number - 1);
   };
-  /////////////////////////////////////////////////////////////////////
+  
 
   const handlBookMark = (id) => {
     
@@ -26,7 +26,7 @@ const Users = () => {
     return setUsers(foo);
   };
   
-  /////////////////////////////////////////////////////////////////////////////////
+  
 
   const [phrases, setPhrases] = useState("человек тусанёт с тобой сегодня");
 
@@ -63,7 +63,7 @@ const Users = () => {
     );
   }
 
-  ////////////////////////////////////////////////////////
+  
 
   return (
     <>

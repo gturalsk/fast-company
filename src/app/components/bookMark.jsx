@@ -1,8 +1,15 @@
-import { render } from "@testing-library/react";
+
 import React from "react";
 
-const Bookmark = () => {
-  render(console.log("bookMark нажат"));
+const Bookmark = (props) => {
+  
+  return (
+    <button
+      onClick={() => props.bookmark(props.user)}
+      className={
+        props.flag ? "bi bi-bookmark-check" : "bi bi-bookmark"
+      }></button>
+  );
 };
 
 export default Bookmark;
