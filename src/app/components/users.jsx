@@ -7,91 +7,80 @@ import SearchStatus from "./searchStatus";
 const Users = () => {
   const [users, setUsers] = useState(API.users.fetchAll());
 
-  let handleDelete = (userId) => {
-    setUsers(users.filter((p) => p._id !== userId));
-    renderPhrase(number - 1);
+  const handleDelete = (userId) => {
+    const usersFiltered = users.filter((user) => user._id !== userId);
+    setUsers(usersFiltered);
   };
-  
 
   const handlBookMark = (id) => {
-    
+    let newUsers = users.map((user) => {
+      const newUser = { ...user };
 
-    let foo = users.map((p) => {
-      if (p._id === id) {
-        p.bookmark = !p.bookmark;
-        return p;
+      if (newUser._id === id) {
+        newUser.bookmark = !newUser.bookmark;
+
+        return newUser;
       }
-      return p;
+
+      return newUser;
     });
-    return setUsers(foo);
+
+    return setUsers(newUsers);
   };
-  
-  
 
-  const [phrases, setPhrases] = useState("человек тусанёт с тобой сегодня");
+  const getPhrase = () => {
+    const userLegths = users.length;
 
-  const ph = [
-    "человек тусанёт с тобой сегодня",
-    "человека тусанёт с тобой сегодня",
-    "Никто с тобой не тусанёт",
-  ];
-
-  let number = users.length;
-  let phrase = phrases;
-
-  const renderPhrase = (number) => {
-    //console.log(number);
-    if (number === 1 || number > 4) {
-      phrase = setPhrases(ph[0]);
+    if (userLegths === 1 || userLegths > 4) {
+      return "человек тусанёт с тобой сегодня";
     }
-    if (number < 5 && number > 1) {
-      phrase = setPhrases(ph[1]);
+
+    if (userLegths < 5 && userLegths > 1) {
+      return "человека тусанёт с тобой сегодня";
     }
-    if (number === 0) {
-      phrase = setPhrases(ph[2]);
+
+    if (userLegths === 0) {
+      return "Никто с тобой не тусанёт";
     }
   };
 
-  const getBageClasses = (number) => {
-    let classes = number > 0 ? "badge text-bg-primary" : "badge text-bg-danger";
-    return classes;
+  const getBageClasses = () => {
+    return users.length > 0 ? "badge text-bg-primary" : "badge text-bg-danger";
   };
-
-  if (number === 0) {
-    return (
-      <SearchStatus number={number} phrase={phrase} calasses={getBageClasses} />
-    );
-  }
-
-  
 
   return (
     <>
-      <SearchStatus number={number} phrase={phrase} calasses={getBageClasses} />
+      <SearchStatus
+        usersLenght={users.length}
+        phrase={getPhrase()}
+        classes={getBageClasses()}
+      />
 
-      <table className='table'>
-        <thead>
-          <tr className='line'>
-            <th scope='col'>Имя</th>
-            <th scope='col'>Качество</th>
-            <th scope='col'>Професия</th>
-            <th scope='col'>Встретился, раз</th>
-            <th scope='col'>Оценка</th>
-            <th scope='col'>Избранное</th>
-          </tr>
-        </thead>
+      {!!users.length && (
+        <table className="table">
+          <thead>
+            <tr className="line">
+              <th scope="col">Имя</th>
+              <th scope="col">Качество</th>
+              <th scope="col">Професия</th>
+              <th scope="col">Встретился, раз</th>
+              <th scope="col">Оценка</th>
+              <th scope="col">Избранное</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          {users.map((user) => (
-            <User
-              user={user}
-              handleDelete={handleDelete}
-              key={user._id}
-              onBookMark={handlBookMark}
-            />
-          ))}
-        </tbody>
-      </table>
+          <tbody>
+            {users.map((user) => (
+              <User
+                user={user}
+                handleDelete={handleDelete}
+                key={user._id}
+                onBookMark={handlBookMark}
+              />
+            ))}
+          </tbody>
+        </table>
+      )}
     </>
   );
 };

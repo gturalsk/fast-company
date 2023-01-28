@@ -1,9 +1,9 @@
 import React from "react";
 
-const SearchStatus = ({ number, phrase, calasses }) => {
+const SearchStatus = ({ usersLenght, phrase, classes }) => {
   return (
-    <div className={calasses(number)}>
-      <h5>{`${number} ${phrase}`}</h5>
+    <div className={classes}>
+      <h5>{`${usersLenght} ${phrase}`}</h5>
     </div>
   );
 };
