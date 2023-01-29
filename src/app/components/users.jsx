@@ -14,15 +14,15 @@ const Users = () => {
 
   const handlBookMark = (id) => {
     let newUsers = users.map((user) => {
-      const newUser = { ...user };
+      //const newUser = { ...user };
 
-      if (newUser._id === id) {
-        newUser.bookmark = !newUser.bookmark;
+      if (user._id === id) {
+        user.bookmark = !user.bookmark;
 
-        return newUser;
+        return user;
       }
 
-      return newUser;
+      return user;
     });
 
     return setUsers(newUsers);
