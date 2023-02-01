@@ -3,6 +3,9 @@ import API from "../API";
 import "../../index.css";
 import User from "./user";
 import SearchStatus from "./searchStatus";
+import Pagination from "./pagination";
+import "../API/utils/paginate";
+import { paginate } from "../API/utils/paginate";
 
 const Users = () => {
   const [users, setUsers] = useState(API.users.fetchAll());
@@ -14,8 +17,6 @@ const Users = () => {
 
   const handlBookMark = (id) => {
     let newUsers = users.map((user) => {
-      //const newUser = { ...user };
-
       if (user._id === id) {
         user.bookmark = !user.bookmark;
 
@@ -47,6 +48,15 @@ const Users = () => {
   const getBageClasses = () => {
     return users.length > 0 ? "badge text-bg-primary" : "badge text-bg-danger";
   };
+  const count = users.length;
+  const pageSize = 4;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const hanglePageChenge = (pageIndex) => {
+    setCurrentPage(pageIndex);
+  };
+
+  const userCrop = paginate(users, currentPage, pageSize);
 
   return (
     <>
@@ -56,7 +66,7 @@ const Users = () => {
         classes={getBageClasses()}
       />
 
-      {!!users.length && (
+      {!!count && (
         <table className="table">
           <thead>
             <tr className="line">
@@ -70,7 +80,7 @@ const Users = () => {
           </thead>
 
           <tbody>
-            {users.map((user) => (
+            {userCrop.map((user) => (
               <User
                 user={user}
                 handleDelete={handleDelete}
@@ -81,6 +91,12 @@ const Users = () => {
           </tbody>
         </table>
       )}
+      <Pagination
+        itemsCount={count}
+        pageSize={pageSize}
+        onPageChenge={hanglePageChenge}
+        currentPage={currentPage}
+      />
     </>
   );
 };

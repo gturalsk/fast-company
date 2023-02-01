@@ -3,7 +3,6 @@ import Bookmark from "./bookMark";
 import Qualiti from "./qualiti";
 
 const User = (props) => {
-  
   return (
     <tr key={props.user._id}>
       <td>{props.user.name}</td>
@@ -27,7 +26,8 @@ const User = (props) => {
       <td>
         <button
           onClick={() => props.handleDelete(props.user._id)}
-          className='btn btn-danger'>
+          className="btn btn-danger"
+        >
           delete
         </button>
       </td>
