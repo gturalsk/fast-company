@@ -1,6 +1,7 @@
 import React from "react";
 import Bookmark from "./bookMark";
 import Qualiti from "./qualiti";
+import PropTypes from "prop-types";
 
 const User = (props) => {
     return (
@@ -8,7 +9,14 @@ const User = (props) => {
             <td>{props.user.name}</td>
             <td>
                 {props.user.qualities.map((qualiti) => {
-                    return <Qualiti qualiti={qualiti} key={qualiti._id} />;
+                    return (
+                        <Qualiti
+                            qualiti={qualiti}
+                            key={qualiti._id}
+                            color={qualiti.color}
+                            name={qualiti.name}
+                        />
+                    );
                 })}
             </td>
 
@@ -33,6 +41,12 @@ const User = (props) => {
             </td>
         </tr>
     );
+};
+
+User.propTypes = {
+    user: PropTypes.object.isRequired,
+    handleDelete: PropTypes.func.isRequired,
+    onBookMark: PropTypes.func.isRequired
 };
 
 export default User;
