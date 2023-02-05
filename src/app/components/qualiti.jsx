@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const Qualiti = (props) => {
     return (
-        <div className={`badge bg-${props.color}`} id="qualiti" key={props.key}>
+        <div className={`badge bg-${props.color}`} id="qualiti" key={props.id}>
             {props.name}
         </div>
     );
@@ -12,7 +12,7 @@ const Qualiti = (props) => {
 Qualiti.propTypes = {
     color: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    key: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired
 };
 
 export default Qualiti;

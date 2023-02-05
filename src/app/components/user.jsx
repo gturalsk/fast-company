@@ -13,6 +13,7 @@ const User = (props) => {
                         <Qualiti
                             qualiti={qualiti}
                             key={qualiti._id}
+                            id={qualiti._id}
                             color={qualiti.color}
                             name={qualiti.name}
                         />
