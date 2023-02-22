@@ -6,7 +6,6 @@ const Pagination = ({ itemsCount, pageSize, onPageChenge, currentPage }) => {
     const pageCount = Math.ceil(itemsCount / pageSize);
     if (pageCount === 1) return null;
     const pages = range(1, pageCount + 1);
-    console.log(pages);
 
     return (
         <nav>

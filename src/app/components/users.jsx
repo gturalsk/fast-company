@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import API from "../API";
 import "../../index.css";
 import User from "./user";
 import SearchStatus from "./searchStatus";
 import Pagination from "./pagination";
+import GroupList from "./groupList";
 // import "../API/utils/paginate";
 import { paginate } from "../API/utils/paginate";
-
+import { noConflict } from "lodash";
 const Users = () => {
     const [users, setUsers] = useState(API.users.fetchAll());
-
+    const [professions, setProfessions] = useState();
+    const [selectedProf, setSelectedProf] = useState();
     const handleDelete = (userId) => {
         const usersFiltered = users.filter((user) => user._id !== userId);
         setUsers(usersFiltered);
+    };
+
+    const handlProfessionSelect = (item) => {
+        setSelectedProf(item);
     };
 
     const handlBookMark = (id) => {
@@ -50,7 +56,7 @@ const Users = () => {
             ? "badge text-bg-primary"
             : "badge text-bg-danger";
     };
-    const count = users.length;
+
     const pageSize = 4;
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -58,15 +64,44 @@ const Users = () => {
         setCurrentPage(pageIndex);
     };
 
-    const userCrop = paginate(users, currentPage, pageSize);
+    useEffect(() => {
+        API.professions.fetchAll().then((data) => setProfessions(data));
+    }, []);
+
+    const filteredUsers = selectedProf
+        ? users.filter((user) => user.profession === selectedProf)
+        : users;
+    const count = filteredUsers.length;
+    const userCrop = paginate(filteredUsers, currentPage, pageSize);
+
+    const clearFilter = () => {
+        setSelectedProf();
+    };
 
     return (
         <>
             <SearchStatus
-                usersLenght={users.length}
+                usersLenght={count}
                 phrase={getPhrase()}
                 classes={getBageClasses()}
             />
+            {professions && (
+                <>
+                    <GroupList
+                        selectedItem={selectedProf}
+                        items={professions}
+                        onItemSelect={handlProfessionSelect}
+                        valueProperty="_id"
+                        contentProperty="name"
+                    />
+                    <button
+                        className="btn btn-secondary mt-2"
+                        onClick={clearFilter}
+                    >
+                        Очистить
+                    </button>
+                </>
+            )}
 
             {!!count && (
                 <table className="table">
