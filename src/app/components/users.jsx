@@ -7,7 +7,12 @@ import Pagination from "./pagination";
 import GroupList from "./groupList";
 // import "../API/utils/paginate";
 import { paginate } from "../API/utils/paginate";
+<<<<<<< HEAD
 import { noConflict } from "lodash"; // не пойму как найти ошибку здесь!!!
+=======
+import { noConflict } from "lodash";
+
+>>>>>>> 54cd18a (updata api)
 const Users = () => {
     const [users, setUsers] = useState(API.users.fetchAll());
     const [professions, setProfessions] = useState();
@@ -58,6 +63,9 @@ const Users = () => {
     };
 
     const pageSize = 4;
+    useEffect(() => {
+        currentPage(1);
+    }, [selectedProf]);
     const [currentPage, setCurrentPage] = useState(1);
 
     const hanglePageChenge = (pageIndex) => {
@@ -79,14 +87,9 @@ const Users = () => {
     };
 
     return (
-        <>
-            <SearchStatus
-                usersLenght={count}
-                phrase={getPhrase()}
-                classes={getBageClasses()}
-            />
+        <div className="d-flex">
             {professions && (
-                <>
+                <div className="d-flex flex-column flex-shrink-0 p-3">
                     <GroupList
                         selectedItem={selectedProf}
                         items={professions}
@@ -100,42 +103,50 @@ const Users = () => {
                     >
                         Очистить
                     </button>
-                </>
+                </div>
             )}
 
-            {!!count && (
-                <table className="table">
-                    <thead>
-                        <tr className="line">
-                            <th scope="col">Имя</th>
-                            <th scope="col">Качество</th>
-                            <th scope="col">Професия</th>
-                            <th scope="col">Встретился, раз</th>
-                            <th scope="col">Оценка</th>
-                            <th scope="col">Избранное</th>
-                        </tr>
-                    </thead>
+            <div className="d-flex-column">
+                <SearchStatus
+                    usersLenght={count}
+                    phrase={getPhrase()}
+                    classes={getBageClasses()}
+                />
+                {!!count && (
+                    <table className="table">
+                        <thead>
+                            <tr className="line">
+                                <th scope="col">Имя</th>
+                                <th scope="col">Качество</th>
+                                <th scope="col">Професия</th>
+                                <th scope="col">Встретился, раз</th>
+                                <th scope="col">Оценка</th>
+                                <th scope="col">Избранное</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        {userCrop.map((user) => (
-                            <User
-                                user={user}
-                                handleDelete={handleDelete}
-                                key={user._id}
-                                onBookMark={handlBookMark}
-                            />
-                        ))}
-                    </tbody>
-                </table>
-            )}
-
-            <Pagination
-                itemsCount={count}
-                pageSize={pageSize}
-                onPageChenge={hanglePageChenge}
-                currentPage={currentPage}
-            />
-        </>
+                        <tbody>
+                            {userCrop.map((user) => (
+                                <User
+                                    user={user}
+                                    handleDelete={handleDelete}
+                                    key={user._id}
+                                    onBookMark={handlBookMark}
+                                />
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+                <div className="d-flex justify-content-center">
+                    <Pagination
+                        itemsCount={count}
+                        pageSize={pageSize}
+                        onPageChenge={hanglePageChenge}
+                        currentPage={currentPage}
+                    />
+                </div>
+            </div>
+        </div>
     );
 };
 
