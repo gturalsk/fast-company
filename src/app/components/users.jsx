@@ -7,7 +7,7 @@ import Pagination from "./pagination";
 import GroupList from "./groupList";
 // import "../API/utils/paginate";
 import { paginate } from "../API/utils/paginate";
-import { noConflict } from "lodash";
+import { noConflict } from "lodash"; // не пойму как найти ошибку здесь!!!
 const Users = () => {
     const [users, setUsers] = useState(API.users.fetchAll());
     const [professions, setProfessions] = useState();
