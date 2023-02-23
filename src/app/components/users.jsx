@@ -7,12 +7,7 @@ import Pagination from "./pagination";
 import GroupList from "./groupList";
 // import "../API/utils/paginate";
 import { paginate } from "../API/utils/paginate";
-<<<<<<< HEAD
 import { noConflict } from "lodash"; // не пойму как найти ошибку здесь!!!
-=======
-import { noConflict } from "lodash";
-
->>>>>>> 54cd18a (updata api)
 const Users = () => {
     const [users, setUsers] = useState(API.users.fetchAll());
     const [professions, setProfessions] = useState();
