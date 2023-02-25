@@ -7,11 +7,24 @@ import Pagination from "./pagination";
 import GroupList from "./groupList";
 // import "../API/utils/paginate";
 import { paginate } from "../API/utils/paginate";
-import { noConflict } from "lodash"; // не пойму как найти ошибку здесь!!!
+import { noConflict } from "lodash";
+console.log(noConflict);
+
 const Users = () => {
-    const [users, setUsers] = useState(API.users.fetchAll());
+    const [users, setUsers] = useState();
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
+
+    console.log(API.users);
+
+    useEffect(() => {
+        API.professions.fetchAll().then((data) => setProfessions(data));
+    }, []);
+
+    useEffect(() => {
+        API.users.fetchAll().then((data) => setUsers(data));
+    }, []);
+
     const handleDelete = (userId) => {
         const usersFiltered = users.filter((user) => user._id !== userId);
         setUsers(usersFiltered);
@@ -67,13 +80,10 @@ const Users = () => {
         setCurrentPage(pageIndex);
     };
 
-    useEffect(() => {
-        API.professions.fetchAll().then((data) => setProfessions(data));
-    }, []);
-
     const filteredUsers = selectedProf
         ? users.filter((user) => user.profession === selectedProf)
         : users;
+
     const count = filteredUsers.length;
     const userCrop = paginate(filteredUsers, currentPage, pageSize);
 
