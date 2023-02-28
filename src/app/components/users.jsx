@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import users from "../API/fake.api/user.api";
-import professions from "../API/fake.api/professions.api";
-
+import API from "../API";
 import "../../index.css";
 import User from "./user";
 import SearchStatus from "./searchStatus";
@@ -13,17 +11,10 @@ import { paginate } from "../API/utils/paginate";
 import { noConflict } from "lodash";
 console.log(noConflict);
 
-const API = {
-    users,
-    professions
-};
-
 const Users = () => {
     const [users, setUsers] = useState();
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
-
-    console.log("users ", users);
 
     useEffect(() => {
         API.professions.fetchAll().then((data) => setProfessions(data));
@@ -91,7 +82,6 @@ const Users = () => {
     const filteredUsers = selectedProf
         ? users.filter((user) => user.profession === selectedProf)
         : users;
-    console.log("selectedProf ", selectedProf);
 
     const count = filteredUsers.length;
 
