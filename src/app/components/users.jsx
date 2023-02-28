@@ -23,7 +23,7 @@ const Users = () => {
     useEffect(() => {
         API.users.fetchAll().then((data) => setUsers(data));
     }, []);
-
+    console.log(users);
     const handleDelete = (userId) => {
         const usersFiltered = users.filter((user) => user._id !== userId);
         setUsers(usersFiltered);
@@ -83,14 +83,14 @@ const Users = () => {
         ? users.filter((user) => user.profession === selectedProf)
         : users;
 
-    const count = filteredUsers.length;
+    const count = filteredUsers?.length;
 
     const userCrop = paginate(filteredUsers, currentPage, pageSize);
 
     const clearFilter = () => {
         setSelectedProf();
     };
-
+    console.log(users);
     return (
         <div className="d-flex">
             {professions && (
