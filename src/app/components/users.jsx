@@ -12,7 +12,7 @@ import { noConflict } from "lodash";
 console.log(noConflict);
 
 const Users = () => {
-    const [users, setUsers] = useState();
+    const [users, setUsers] = useState([]);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
 
@@ -23,13 +23,14 @@ const Users = () => {
     useEffect(() => {
         API.users.fetchAll().then((data) => setUsers(data));
     }, []);
-    console.log(users);
+
     const handleDelete = (userId) => {
         const usersFiltered = users.filter((user) => user._id !== userId);
         setUsers(usersFiltered);
     };
 
     const handlProfessionSelect = (item) => {
+        // console.log(item);
         setSelectedProf(item);
     };
 
@@ -71,8 +72,9 @@ const Users = () => {
 
     const pageSize = 4;
     useEffect(() => {
-        currentPage(1);
+        setCurrentPage(1);
     }, [selectedProf]);
+
     const [currentPage, setCurrentPage] = useState(1);
 
     const hanglePageChenge = (pageIndex) => {
@@ -82,15 +84,15 @@ const Users = () => {
     const filteredUsers = selectedProf
         ? users.filter((user) => user.profession === selectedProf)
         : users;
-
-    const count = filteredUsers?.length;
+    console.log(filteredUsers);
+    const count = filteredUsers.length;
 
     const userCrop = paginate(filteredUsers, currentPage, pageSize);
 
     const clearFilter = () => {
         setSelectedProf();
     };
-    console.log(users);
+
     return (
         <div className="d-flex">
             {professions && (
