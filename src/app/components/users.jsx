@@ -82,9 +82,9 @@ const Users = () => {
     };
 
     const filteredUsers = selectedProf
-        ? users.filter((user) => user.profession === selectedProf)
+        ? users.filter((user) => user.profession.name === selectedProf.name) // не происходит сравнение
         : users;
-    console.log(filteredUsers);
+
     const count = filteredUsers.length;
 
     const userCrop = paginate(filteredUsers, currentPage, pageSize);
