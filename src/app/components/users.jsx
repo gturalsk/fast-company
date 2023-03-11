@@ -9,13 +9,13 @@ import GroupList from "./groupList";
 import UserTable from "./usersTable";
 // import "../API/utils/paginate";
 import { paginate } from "../API/utils/paginate";
-import { noConflict } from "lodash";
-console.log(noConflict);
+import _ from "lodash";
 
 const Users = () => {
     const [users, setUsers] = useState([]);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
+    const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
 
     useEffect(() => {
         API.professions.fetchAll().then((data) => setProfessions(data));
@@ -33,6 +33,17 @@ const Users = () => {
     const handlProfessionSelect = (item) => {
         // console.log(item);
         setSelectedProf(item);
+    };
+
+    const handleSort = (item) => {
+        if (sortBy.iter === item) {
+            setSortBy((prevState) => ({
+                ...prevState,
+                order: prevState === "asc" ? "desc" : "asc"
+            }));
+        } else {
+            setSortBy({ iter: item, order: "asc" });
+        }
     };
 
     const handlBookMark = (id) => {
@@ -71,7 +82,7 @@ const Users = () => {
             : "badge text-bg-danger";
     };
 
-    const pageSize = 4;
+    const pageSize = 8;
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
@@ -87,8 +98,9 @@ const Users = () => {
         : users;
 
     const count = filteredUsers.length;
+    const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order]);
 
-    const userCrop = paginate(filteredUsers, currentPage, pageSize);
+    const userCrop = paginate(sortedUsers, currentPage, pageSize);
 
     const clearFilter = () => {
         setSelectedProf();
@@ -125,6 +137,7 @@ const Users = () => {
                         users={userCrop}
                         handleDelete={handleDelete}
                         handlBookMark={handlBookMark}
+                        onSort={handleSort}
                     />
                     // Отсюда перенес код в usersTable
                 )}

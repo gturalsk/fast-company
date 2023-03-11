@@ -2,17 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import User from "./user";
 
-const UserTable = ({ users, handleDelete, handlBookMark }) => {
+const UserTable = ({ users, handleDelete, handlBookMark, onSort }) => {
     return (
         <table className="table">
             <thead>
                 <tr className="line">
-                    <th scope="col">Имя</th>
+                    <th onClick={() => onSort("name")} scope="col">
+                        Имя
+                    </th>
                     <th scope="col">Качество</th>
-                    <th scope="col">Професия</th>
-                    <th scope="col">Встретился, раз</th>
-                    <th scope="col">Оценка</th>
-                    <th scope="col">Избранное</th>
+                    <th onClick={() => onSort("profession.name")} scope="col">
+                        Професия
+                    </th>
+                    <th onClick={() => onSort("completedMeetings")} scope="col">
+                        Встретился, раз
+                    </th>
+                    <th onClick={() => onSort("rate")} scope="col">
+                        Оценка
+                    </th>
+                    <th onClick={() => onSort("bookmark")} scope="col">
+                        Избранное
+                    </th>
                 </tr>
             </thead>
 
@@ -33,7 +43,8 @@ const UserTable = ({ users, handleDelete, handlBookMark }) => {
 UserTable.propTypes = {
     users: PropTypes.array.isRequired,
     handleDelete: PropTypes.func.isRequired,
-    handlBookMark: PropTypes.func.isRequired
+    handlBookMark: PropTypes.func.isRequired,
+    onSort: PropTypes.func.isRequired
 };
 
 export default UserTable;
