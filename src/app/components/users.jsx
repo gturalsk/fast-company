@@ -36,14 +36,7 @@ const Users = () => {
     };
 
     const handleSort = (item) => {
-        if (sortBy.iter === item) {
-            setSortBy((prevState) => ({
-                ...prevState,
-                order: prevState === "asc" ? "desc" : "asc"
-            }));
-        } else {
-            setSortBy({ iter: item, order: "asc" });
-        }
+        setSortBy(item);
     };
 
     const handlBookMark = (id) => {
@@ -138,6 +131,7 @@ const Users = () => {
                         handleDelete={handleDelete}
                         handlBookMark={handlBookMark}
                         onSort={handleSort}
+                        selectedSort={sortBy}
                     />
                     // Отсюда перенес код в usersTable
                 )}

@@ -1,32 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
-import User from "./user";
 
-const UserTable = ({ users, handleDelete, handlBookMark, onSort }) => {
+import TableHeader from "./tableHeader";
+import TableBody from "./tableBody";
+
+const UserTable = ({
+    users,
+    handleDelete,
+    handlBookMark,
+    selectedSort,
+    onSort
+}) => {
+    const columns = {
+        name: { path: "name", name: "Имя" },
+        qualities: { name: "Качество" },
+        professions: { path: "profession.name", name: "Профессия" },
+        completedMeetings: {
+            path: "completedMeetings",
+            name: "Встретился, раз"
+        },
+        rate: { path: "rate", name: "Оценка" },
+        bookmark: { path: "bookmark", name: "Избранное" },
+        delete: {}
+    };
+
     return (
         <table className="table">
-            <thead>
-                <tr className="line">
-                    <th onClick={() => onSort("name")} scope="col">
-                        Имя
-                    </th>
-                    <th scope="col">Качество</th>
-                    <th onClick={() => onSort("profession.name")} scope="col">
-                        Професия
-                    </th>
-                    <th onClick={() => onSort("completedMeetings")} scope="col">
-                        Встретился, раз
-                    </th>
-                    <th onClick={() => onSort("rate")} scope="col">
-                        Оценка
-                    </th>
-                    <th onClick={() => onSort("bookmark")} scope="col">
-                        Избранное
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody>
+            <TableHeader {...{ onSort, selectedSort, columns }} />
+            <TableBody {...{ columns, data: users }} />
+            {/* <tbody>
                 {users.map((user) => (
                     <User
                         user={user}
@@ -35,7 +37,7 @@ const UserTable = ({ users, handleDelete, handlBookMark, onSort }) => {
                         onBookMark={handlBookMark}
                     />
                 ))}
-            </tbody>
+            </tbody> */}
         </table>
     );
 };
@@ -44,7 +46,8 @@ UserTable.propTypes = {
     users: PropTypes.array.isRequired,
     handleDelete: PropTypes.func.isRequired,
     handlBookMark: PropTypes.func.isRequired,
-    onSort: PropTypes.func.isRequired
+    onSort: PropTypes.func.isRequired,
+    selectedSort: PropTypes.object.isRequired
 };
 
 export default UserTable;
