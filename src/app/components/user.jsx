@@ -1,40 +1,38 @@
 import React from "react";
-import Bookmark from "./bookMark";
-import Qualiti from "./qualiti";
 import PropTypes from "prop-types";
-
-const User = (props) => {
+import Quality from "./quality";
+import BookMark from "./bookmark";
+const User = ({
+    _id,
+    name,
+    qualities,
+    profession,
+    completedMeetings,
+    rate,
+    onDelete,
+    bookmark,
+    onToggleBookMark
+}) => {
     return (
-        <tr key={props.user._id}>
-            <td>{props.user.name}</td>
+        <tr>
+            <td>{name}</td>
             <td>
-                {props.user.qualities.map((qualiti) => {
-                    return (
-                        <Qualiti
-                            qualiti={qualiti}
-                            key={qualiti._id}
-                            id={qualiti._id}
-                            color={qualiti.color}
-                            name={qualiti.name}
-                        />
-                    );
-                })}
+                {qualities.map((qual) => (
+                    <Quality {...qual} key={qual._id} />
+                ))}
             </td>
-
-            <td>{props.user.profession.name}</td>
-            <td>{props.user.completedMeetings}</td>
-            <td>{props.user.rate}</td>
+            <td>{profession.name}</td>
+            <td>{completedMeetings}</td>
+            <td>{rate} /5</td>
             <td>
-                <Bookmark
-                    bookmark={props.onBookMark}
-                    user={props.user._id}
-                    flag={props.user.bookmark}
+                <BookMark
+                    status={bookmark}
+                    onClick={() => onToggleBookMark(_id)}
                 />
             </td>
-
             <td>
                 <button
-                    onClick={() => props.handleDelete(props.user._id)}
+                    onClick={() => onDelete(_id)}
                     className="btn btn-danger"
                 >
                     delete
@@ -43,11 +41,16 @@ const User = (props) => {
         </tr>
     );
 };
-
 User.propTypes = {
-    user: PropTypes.object.isRequired,
-    handleDelete: PropTypes.func.isRequired,
-    onBookMark: PropTypes.func.isRequired
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    qualities: PropTypes.array,
+    profession: PropTypes.object.isRequired,
+    completedMeetings: PropTypes.number.isRequired,
+    rate: PropTypes.number.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    bookmark: PropTypes.bool,
+    onToggleBookMark: PropTypes.func.isRequired
 };
 
 export default User;

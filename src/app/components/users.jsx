@@ -1,100 +1,44 @@
 import React, { useState, useEffect } from "react";
-
-import API from "../API";
-import "../../index.css";
-
-import SearchStatus from "./searchStatus";
+import PropTypes from "prop-types";
+import { paginate } from "../utils/paginate";
 import Pagination from "./pagination";
+import User from "./user";
+import api from "../api";
 import GroupList from "./groupList";
-import UserTable from "./usersTable";
-// import "../API/utils/paginate";
-import { paginate } from "../API/utils/paginate";
-import _ from "lodash";
-
-const Users = () => {
-    const [users, setUsers] = useState([]);
-    const [professions, setProfessions] = useState();
+import SearchStatus from "./searchStatus";
+const Users = ({ users: allUsers, ...rest }) => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
-    const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
 
+    console.log(allUsers);
+
+    const pageSize = 2;
     useEffect(() => {
-        API.professions.fetchAll().then((data) => setProfessions(data));
+        api.professions.fetchAll().then((data) => setProfession(data));
     }, []);
-
-    useEffect(() => {
-        API.users.fetchAll().then((data) => setUsers(data));
-    }, []);
-
-    const handleDelete = (userId) => {
-        const usersFiltered = users.filter((user) => user._id !== userId);
-        setUsers(usersFiltered);
-    };
-
-    const handlProfessionSelect = (item) => {
-        // console.log(item);
-        setSelectedProf(item);
-    };
-
-    const handleSort = (item) => {
-        setSortBy(item);
-    };
-
-    const handlBookMark = (id) => {
-        const newUsers = users.map((user) => {
-            if (user._id === id) {
-                user.bookmark = !user.bookmark;
-
-                return user;
-            }
-
-            return user;
-        });
-
-        return setUsers(newUsers);
-    };
-
-    const getPhrase = () => {
-        const userLegths = users.length;
-
-        if (userLegths === 1 || userLegths > 4) {
-            return "человек тусанёт с тобой сегодня";
-        }
-
-        if (userLegths < 5 && userLegths > 1) {
-            return "человека тусанёт с тобой сегодня";
-        }
-
-        if (userLegths === 0) {
-            return "Никто с тобой не тусанёт";
-        }
-    };
-
-    const getBageClasses = () => {
-        return users.length > 0
-            ? "badge text-bg-primary"
-            : "badge text-bg-danger";
-    };
-
-    const pageSize = 8;
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
 
-    const [currentPage, setCurrentPage] = useState(1);
-
-    const hanglePageChenge = (pageIndex) => {
-        setCurrentPage(pageIndex);
+    const handleProfessionSelect = (item) => {
+        setSelectedProf(item);
     };
 
+    const handlePageChange = (pageIndex) => {
+        setCurrentPage(pageIndex);
+    };
     const filteredUsers = selectedProf
-        ? users.filter((user) => user.profession.name === selectedProf.name) // не происходит сравнение
-        : users;
+        ? allUsers.filter(
+              (user) =>
+                  JSON.stringify(user.profession) ===
+                  JSON.stringify(selectedProf)
+          )
+        : allUsers;
 
     const count = filteredUsers.length;
-    const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order]);
 
-    const userCrop = paginate(sortedUsers, currentPage, pageSize);
-
+    const usersCrop = paginate(filteredUsers, currentPage, pageSize);
     const clearFilter = () => {
         setSelectedProf();
     };
@@ -106,46 +50,53 @@ const Users = () => {
                     <GroupList
                         selectedItem={selectedProf}
                         items={professions}
-                        onItemSelect={handlProfessionSelect}
-                        valueProperty="_id"
-                        contentProperty="name"
+                        onItemSelect={handleProfessionSelect}
                     />
                     <button
                         className="btn btn-secondary mt-2"
                         onClick={clearFilter}
                     >
+                        {" "}
                         Очистить
                     </button>
                 </div>
             )}
-
-            <div className="d-flex-column">
-                <SearchStatus
-                    usersLenght={count}
-                    phrase={getPhrase()}
-                    classes={getBageClasses()}
-                />
-                {!!count && (
-                    <UserTable
-                        users={userCrop}
-                        handleDelete={handleDelete}
-                        handlBookMark={handlBookMark}
-                        onSort={handleSort}
-                        selectedSort={sortBy}
-                    />
-                    // Отсюда перенес код в usersTable
+            <div className="d-flex flex-column">
+                <SearchStatus length={count} />
+                {count > 0 && (
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Имя</th>
+                                <th scope="col">Качества</th>
+                                <th scope="col">Профессия</th>
+                                <th scope="col">Встретился, раз</th>
+                                <th scope="col">Оценка</th>
+                                <th scope="col">Избранное</th>
+                                <th />
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {usersCrop.map((user) => (
+                                <User {...rest} {...user} key={user._id} />
+                            ))}
+                        </tbody>
+                    </table>
                 )}
                 <div className="d-flex justify-content-center">
                     <Pagination
                         itemsCount={count}
                         pageSize={pageSize}
-                        onPageChenge={hanglePageChenge}
                         currentPage={currentPage}
+                        onPageChange={handlePageChange}
                     />
                 </div>
             </div>
         </div>
     );
+};
+Users.propTypes = {
+    users: PropTypes.array
 };
 
 export default Users;
