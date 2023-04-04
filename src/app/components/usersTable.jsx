@@ -10,24 +10,26 @@ const UserTable = ({
     onSort,
     selectedSort,
     onToggleBookMark,
-    onDelete,
-    ...rest
+    onDelete
 }) => {
     const columns = {
-        name: { path: "name", name: "Имя" },
+        name: { path: "name", name: "Имя", sort: true },
+
         qualities: {
             name: "Качества",
             component: (user) => <QualitiesList qualities={user.qualities} />
         },
-        professions: { path: "profession.name", name: "Профессия" },
+        professions: { path: "profession.name", name: "Профессия", sort: true },
         completedMeetings: {
             path: "completedMeetings",
-            name: "Встретился, раз"
+            name: "Встретился, раз",
+            sort: true
         },
-        rate: { path: "rate", name: "Оценка" },
+        rate: { path: "rate", name: "Оценка", sort: true },
         bookmark: {
             path: "bookmark",
             name: "Избранное",
+            sort: true,
             component: (user) => (
                 <BookMark
                     status={user.bookmark}
@@ -46,6 +48,7 @@ const UserTable = ({
             )
         }
     };
+
     return (
         <Table
             onSort={onSort}

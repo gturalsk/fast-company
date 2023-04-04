@@ -12,7 +12,7 @@ const Users = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
-    const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
+    const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
 
     const [users, setUsers] = useState();
@@ -26,12 +26,14 @@ const Users = () => {
     };
 
     const handleToggleBookmark = (id) => {
+        console.log(id);
         const newArray = users.map((user) => {
             if (user._id === id) {
-                return { ...user, bookMark: !user.bookMark };
+                return { ...user, bookmark: !user.bookmark };
             }
             return user;
         });
+        console.log(newArray);
         setUsers(newArray);
     };
 

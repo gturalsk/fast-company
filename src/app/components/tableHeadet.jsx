@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
+    console.log(selectedSort);
     const hendleSort = (item) => {
         if (selectedSort.path === item) {
             onSort({
@@ -12,6 +13,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             onSort({ path: item, order: "asc" });
         }
     };
+
     return (
         <thead>
             <tr>
@@ -27,6 +29,18 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                         scope="col"
                     >
                         {columns[column].name}
+                        {columns[column].sort &&
+                            columns[column].path === selectedSort.path && (
+                                <i
+                                    className={
+                                        "bi bi-caret" +
+                                        (selectedSort.order === "asc"
+                                            ? "-down-"
+                                            : "-up-") +
+                                        "fill"
+                                    }
+                                />
+                            )}
                     </th>
                 ))}
 
