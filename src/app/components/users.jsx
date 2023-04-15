@@ -81,44 +81,67 @@ const Users = () => {
         };
 
         return (
-            <div className="d-flex">
-                {professions && (
-                    <div className="d-flex flex-column flex-shrink-0 p-3">
-                        <GroupList
-                            selectedItem={selectedProf}
-                            items={professions}
-                            onItemSelect={handleProfessionSelect}
-                        />
-                        <button
-                            className="btn btn-secondary mt-2"
-                            onClick={clearFilter}
+            <>
+                <ul className="nav">
+                    <li className="nav-item">
+                        <a
+                            className="nav-link active"
+                            aria-current="page"
+                            href="#"
                         >
-                            {" "}
-                            Очистить
-                        </button>
-                    </div>
-                )}
-                <div className="d-flex flex-column">
-                    <SearchStatus length={count} />
-                    {count > 0 && (
-                        <UserTable
-                            users={usersCrop}
-                            onSort={hendleSort}
-                            selectedSort={sortBy}
-                            onDelete={handleDelete}
-                            onToggleBookMark={handleToggleBookmark}
-                        />
+                            Main
+                        </a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">
+                            Login
+                        </a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">
+                            Users
+                        </a>
+                    </li>
+                </ul>
+                <div className="d-flex">
+                    {professions && (
+                        <div className="d-flex flex-column flex-shrink-0 p-3">
+                            <GroupList
+                                selectedItem={selectedProf}
+                                items={professions}
+                                onItemSelect={handleProfessionSelect}
+                            />
+                            <button
+                                className="btn btn-secondary mt-2"
+                                onClick={clearFilter}
+                            >
+                                {" "}
+                                Очистить
+                            </button>
+                        </div>
                     )}
-                    <div className="d-flex justify-content-center">
-                        <Pagination
-                            itemsCount={count}
-                            pageSize={pageSize}
-                            currentPage={currentPage}
-                            onPageChange={handlePageChange}
-                        />
+                    <div className="d-flex flex-column">
+                        <SearchStatus length={count} />
+                        {count > 0 && (
+                            <UserTable
+                                users={usersCrop}
+                                onSort={hendleSort}
+                                selectedSort={sortBy}
+                                onDelete={handleDelete}
+                                onToggleBookMark={handleToggleBookmark}
+                            />
+                        )}
+                        <div className="d-flex justify-content-center">
+                            <Pagination
+                                itemsCount={count}
+                                pageSize={pageSize}
+                                currentPage={currentPage}
+                                onPageChange={handlePageChange}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </>
         );
     }
     return "loading...";
