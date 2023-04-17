@@ -8,7 +8,7 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
 
-const Users = () => {
+const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
@@ -82,27 +82,6 @@ const Users = () => {
 
         return (
             <>
-                <ul className="nav">
-                    <li className="nav-item">
-                        <a
-                            className="nav-link active"
-                            aria-current="page"
-                            href="#"
-                        >
-                            Main
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">
-                            Login
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">
-                            Users
-                        </a>
-                    </li>
-                </ul>
                 <div className="d-flex">
                     {professions && (
                         <div className="d-flex flex-column flex-shrink-0 p-3">
@@ -146,8 +125,8 @@ const Users = () => {
     }
     return "loading...";
 };
-Users.propTypes = {
+UsersList.propTypes = {
     users: PropTypes.array
 };
 
-export default Users;
+export default UsersList;
