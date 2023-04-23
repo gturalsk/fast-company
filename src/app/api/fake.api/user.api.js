@@ -11,7 +11,7 @@ const qualities = {
         color: "secondary"
     },
     buller: {
-        _id: "67rdca3eeb7f6fgeed4711012",
+        _id: "",
         name: "Троль",
         color: "success"
     },
@@ -150,6 +150,14 @@ const fetchAll = () =>
         }, 2000);
     });
 
+const getById = (id) =>
+    new Promise((resolve) => {
+        window.setTimeout(function () {
+            resolve(users.find((user) => user._id === id));
+        }, 1000);
+    });
+
 export default {
-    fetchAll
+    fetchAll,
+    getById
 };
